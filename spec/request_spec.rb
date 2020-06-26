@@ -39,11 +39,11 @@ describe TerrasmsApi::Request do
         login: 'cool-login',
         target: '88005553535',
         sender: 'RubyGems',
-        message: '1212'
+        message: '1212%:/'
       }
     end
 
-    let(:correct_md5) { Hash[:sign, 'c3612425f27d62c9b5c8f51cdd696355'] }
+    let(:correct_md5) { Hash[:sign, '7a4f96fc65e5fa3d330122ece736e901'] }
 
     subject { request.post('send', options) }
 
