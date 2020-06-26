@@ -55,4 +55,32 @@ describe TerrasmsApi::Request do
       subject
     end
   end
+
+  describe 'internal error' do
+    before do
+      stub_request(:any, 'https://auth.terasms.ru/outbox/send')
+        .to_return(body: internal_error_code.to_s)
+    end
+
+    let(:internal_error_code) { -rand(100) - 1 }
+
+    let(:options) do
+      {
+        login: 'cool-login',
+        target: '88005553535',
+        sender: 'RubyGems',
+        message: '1212'
+      }
+    end
+
+    subject { request.post('send', options) }
+
+    it 'raise internal_error' do
+      expect { subject }.to(
+        raise_error(
+          "Internal error: #{internal_error_code} see https://terasms.ru/documentation/api/http/errors"
+        )
+      )
+    end
+  end
 end
